@@ -73,18 +73,16 @@ class CharTrie {
       pos
     }
     @tailrec def insert1(left: Int, right: Int): Int = {
-      if (left == right) doInsert(left) else {
-	val middle = (left + right) >> 1
-	val childPos = children.at(middle)
-	val cc = (buff(childPos): @unchecked) match {
-	  case CharNode(cc, _) => cc
-	}
-	if (cc == c) childPos
-	else if (middle == left) doInsert(left + 1)
-	else if (cc < c) insert1(middle, right) else insert1(left, middle)
+      val middle = (left + right) >> 1
+      val childPos = children.at(middle)
+      val cc = (buff(childPos): @unchecked) match {
+	case CharNode(cc, _) => cc
       }
+      if (cc == c) childPos
+      else if (middle == left) doInsert(right)
+      else if (cc < c) insert1(middle, right) else insert1(left, middle)
     }
-    insert1(0, children.size)
+    if (children.size == 0) doInsert(0) else insert1(0, children.size)
   }
 
   def str(hash: Int) = {
