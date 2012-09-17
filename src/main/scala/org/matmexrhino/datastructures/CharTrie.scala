@@ -54,11 +54,11 @@ class CharTrie {
   val buff = new ArrayBuffer[Node]
   buff += Root
 
-  def insert(str: String): Int = {
+  def insert(cs: Seq[Char]): Int = {
     var idx = 0
     var curr = 0
-    while(idx < str.length) {
-      curr = insert0(curr, str.charAt(idx))
+    for (c <- cs) {
+      curr = insert0(curr, c)
       idx += 1
     }
     curr
