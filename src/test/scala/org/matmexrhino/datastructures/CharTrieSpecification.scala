@@ -6,7 +6,9 @@ import Prop._
 object CharTrieSpecification extends Properties("Character Trie") {
   val trie = new CharTrie
 
-  property("should roundtrip") = forAll { (s: String) =>
-    trie.str(trie.insert(s)) == s
-  }   
+  property("roundtrip") = forAll { (s: String) =>
+    val hash = trie.insert(s)
+    ("Get back inserted" |: trie.str(hash) == s) &&
+    ("Idempotent"        |: trie.insert(s) == hash)
+  }
 }

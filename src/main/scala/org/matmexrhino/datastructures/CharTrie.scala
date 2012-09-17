@@ -67,7 +67,7 @@ class CharTrie {
   private def insert0(n: Int, c: Char): Int = {
     val children = buff(n).children
     def doInsert(idx: Int) = {
-      val pos = buff.size
+      val pos = size
       children.insert(idx, pos)
       buff += new CharNode(c, n)
       pos
@@ -93,4 +93,7 @@ class CharTrie {
     case Root => builder.toString.reverse
     case CharNode(c, p) => str0(buff(p), builder append c)
   }
+  def size = buff.size
+  def clear() { buff.clear() }
+  override def toString = buff.mkString(",")
 }
