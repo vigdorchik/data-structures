@@ -45,7 +45,7 @@ class SSTableSpec extends WordSpec with ShouldMatchers with BeforeAndAfterAll {
     }
 
     "write sstable and check its consistency" in {
-      val sstable = SSTable.write({() => flatten(stream)}, f)
+      val sstable = SSTable.write(f, flatten(stream))
       import math.Ordering.Implicits._
       import Utils.arrayOrdering
       for ((k, vs) <- stream) {

@@ -100,8 +100,7 @@ object SSTable {
 
   val blockSize = 128
 
-  // Pass a function not to hold to the stream.
-  def write(data: () => Stream[(Bytes, Bytes)], f: File): SSTable = {
+  def write(f: File, bindings: =>Stream[(Bytes, Bytes)]): SSTable = {
     val out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(f)))
 
     implicit val pairOrd = bytesOrd.on[(Bytes, Bytes)](_._1)
@@ -141,7 +140,7 @@ object SSTable {
     }
 
     try {
-      iter(data(), 0L)
+      iter(bindings, 0L)
     } finally {
       out.close()
     }
