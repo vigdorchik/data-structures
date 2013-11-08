@@ -122,12 +122,12 @@ object SSTable {
               case (k, _)#::_=>
                 writeBytes(k)
                 val (first, rest) = stream span (_._1 == k)
-                val vs = first.toList map (_._2)
+                val (_, vs) = first.unzip
                 data.writeShort(vs.length)
                 for (v <- vs) writeBytes(v)
                 rest
               case _ => 
-                writeBytes(Array[Byte]())
+                writeBytes(Array.empty)
                 data.writeShort(0)
                 stream
             }
